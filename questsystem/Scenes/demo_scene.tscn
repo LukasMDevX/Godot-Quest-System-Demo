@@ -1,0 +1,119 @@
+[gd_scene load_steps=17 format=3 uid="uid://blfl1xair8ab3"]
+
+[ext_resource type="Script" path="res://Scripts/QuestManager.cs" id="1_rwiq2"]
+[ext_resource type="Script" path="res://Scripts/QuestCompletionListener.cs" id="2_2pulb"]
+[ext_resource type="Script" path="res://Scripts/QuestStepScripts/InteractStep.cs" id="2_6d8fd"]
+[ext_resource type="Script" path="res://Scripts/QuestStepScripts/KillStep.cs" id="3_n0nbv"]
+[ext_resource type="Script" path="res://Scripts/QuestStepScripts/StayInAreaStep.cs" id="4_cqcve"]
+[ext_resource type="Script" path="res://Scripts/DemoInteractButton.cs" id="6_3b477"]
+[ext_resource type="Script" path="res://Scripts/Interactable.cs" id="6_pl183"]
+[ext_resource type="Script" path="res://Scenes/DemoKillEnemyButton.cs" id="7_dawwn"]
+[ext_resource type="Script" path="res://Scenes/DemoReviveEnemyButton.cs" id="8_5oqyg"]
+[ext_resource type="Script" path="res://Scenes/Enemy.cs" id="9_ouyhd"]
+[ext_resource type="Script" path="res://Scripts/DemoAreaTriggerEnteredButton.cs" id="9_wumwm"]
+[ext_resource type="Script" path="res://Scenes/DemoAreaTriggerExitButton.cs" id="10_1e3px"]
+[ext_resource type="Script" path="res://Scenes/DemoAreaTrigger.cs" id="11_0rptk"]
+
+[sub_resource type="Resource" id="Resource_3sso0"]
+script = ExtResource("2_6d8fd")
+targetNode = NodePath("../DemoLever")
+signalSource = NodePath("../DemoLever/Interactable")
+eventName = "Interacted"
+stepId = "step_interact_1"
+description = "interact with the Lever"
+
+[sub_resource type="Resource" id="Resource_ha8gu"]
+script = ExtResource("3_n0nbv")
+targetCount = 3
+stepId = "step_kill_enemy_1"
+description = "kill 3 enemys"
+
+[sub_resource type="Resource" id="Resource_gtk22"]
+script = ExtResource("4_cqcve")
+AreaTriggerPath = NodePath("../DemoAreaTrigger")
+RequiredTime = 5.0
+EffectPath = Array[NodePath]([])
+EffectOnFinishPaths = Array[NodePath]([])
+stepId = "step_stay_in_area_1"
+description = "stay in the area for 5 seconds."
+
+[node name="DemoScene" type="Node"]
+
+[node name="QuestManager" type="Node" parent="."]
+script = ExtResource("1_rwiq2")
+Steps = Array[Object]([SubResource("Resource_3sso0"), SubResource("Resource_ha8gu"), SubResource("Resource_gtk22")])
+
+[node name="QuestCompletionListener" type="Node" parent="."]
+script = ExtResource("2_2pulb")
+
+[node name="DemoUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DemoInteractButton" type="Button" parent="DemoUI" node_paths=PackedStringArray("targetInteractable")]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 100.0
+text = "Interact with Lever
+"
+script = ExtResource("6_3b477")
+targetInteractable = NodePath("../../DemoLever/Interactable")
+
+[node name="DemoKillEnemyButton" type="Button" parent="DemoUI" node_paths=PackedStringArray("targetEnemy")]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 0
+offset_left = 225.0
+offset_right = 425.0
+offset_bottom = 100.0
+text = "Kill the Enemy"
+script = ExtResource("7_dawwn")
+targetEnemy = NodePath("../../DemoEnemy")
+
+[node name="DemoReviveEnemyButton" type="Button" parent="DemoUI" node_paths=PackedStringArray("targetEnemy")]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 0
+offset_left = 225.0
+offset_top = 119.0
+offset_right = 425.0
+offset_bottom = 219.0
+text = "Revive the Enemy"
+script = ExtResource("8_5oqyg")
+targetEnemy = NodePath("../../DemoEnemy")
+
+[node name="DemoAreaTriggerEnteredutton" type="Button" parent="DemoUI" node_paths=PackedStringArray("areaTrigger")]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 0
+offset_left = 451.0
+offset_right = 651.0
+offset_bottom = 100.0
+text = "Enter Area"
+script = ExtResource("9_wumwm")
+areaTrigger = NodePath("../../DemoAreaTrigger")
+
+[node name="DemoAreaTriggerExitButton" type="Button" parent="DemoUI" node_paths=PackedStringArray("areaTrigger")]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 0
+offset_left = 451.0
+offset_top = 119.0
+offset_right = 651.0
+offset_bottom = 219.0
+text = "Exit Area"
+script = ExtResource("10_1e3px")
+areaTrigger = NodePath("../../DemoAreaTrigger")
+
+[node name="DemoLever" type="Node3D" parent="."]
+
+[node name="Interactable" type="Node" parent="DemoLever" node_paths=PackedStringArray("effectObjects")]
+script = ExtResource("6_pl183")
+effectObjects = []
+
+[node name="DemoEnemy" type="Node3D" parent="."]
+script = ExtResource("9_ouyhd")
+
+[node name="DemoAreaTrigger" type="Node" parent="."]
+script = ExtResource("11_0rptk")
