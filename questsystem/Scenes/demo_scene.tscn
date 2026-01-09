@@ -1,18 +1,18 @@
 [gd_scene load_steps=17 format=3 uid="uid://blfl1xair8ab3"]
 
-[ext_resource type="Script" path="res://Scripts/QuestManager.cs" id="1_rwiq2"]
-[ext_resource type="Script" path="res://Scripts/QuestCompletionListener.cs" id="2_2pulb"]
-[ext_resource type="Script" path="res://Scripts/QuestStepScripts/InteractStep.cs" id="2_6d8fd"]
-[ext_resource type="Script" path="res://Scripts/QuestStepScripts/KillStep.cs" id="3_n0nbv"]
-[ext_resource type="Script" path="res://Scripts/QuestStepScripts/StayInAreaStep.cs" id="4_cqcve"]
-[ext_resource type="Script" path="res://Scripts/DemoInteractButton.cs" id="6_3b477"]
-[ext_resource type="Script" path="res://Scripts/Interactable.cs" id="6_pl183"]
-[ext_resource type="Script" path="res://Scenes/DemoKillEnemyButton.cs" id="7_dawwn"]
-[ext_resource type="Script" path="res://Scenes/DemoReviveEnemyButton.cs" id="8_5oqyg"]
-[ext_resource type="Script" path="res://Scenes/Enemy.cs" id="9_ouyhd"]
-[ext_resource type="Script" path="res://Scripts/DemoAreaTriggerEnteredButton.cs" id="9_wumwm"]
-[ext_resource type="Script" path="res://Scenes/DemoAreaTriggerExitButton.cs" id="10_1e3px"]
-[ext_resource type="Script" path="res://Scenes/DemoAreaTrigger.cs" id="11_0rptk"]
+[ext_resource type="Script" path="res://Scripts/Quest/QuestManager.cs" id="1_rwiq2"]
+[ext_resource type="Script" path="res://Scripts/Quest/InteractStep.cs" id="2_6d8fd"]
+[ext_resource type="Script" path="res://Scripts/Quest/KillStep.cs" id="3_n0nbv"]
+[ext_resource type="Script" path="res://Scripts/Quest/StayInAreaStep.cs" id="4_cqcve"]
+[ext_resource type="Script" path="res://Scripts/Events/QuestCompletionListener.cs" id="5_e75cw"]
+[ext_resource type="Script" path="res://Scripts/UI/DemoInteractButton.cs" id="6_3b477"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/Interactable.cs" id="6_pl183"]
+[ext_resource type="Script" path="res://Scripts/UI/DemoKillEnemyButton.cs" id="7_dawwn"]
+[ext_resource type="Script" path="res://Scripts/UI/DemoReviveEnemyButton.cs" id="8_5oqyg"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/Enemy.cs" id="9_ouyhd"]
+[ext_resource type="Script" path="res://Scripts/UI/DemoAreaTriggerEnteredButton.cs" id="9_wumwm"]
+[ext_resource type="Script" path="res://Scripts/UI/DemoAreaTriggerExitButton.cs" id="10_1e3px"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/DemoAreaTrigger.cs" id="11_0rptk"]
 
 [sub_resource type="Resource" id="Resource_3sso0"]
 script = ExtResource("2_6d8fd")
@@ -44,7 +44,7 @@ script = ExtResource("1_rwiq2")
 Steps = Array[Object]([SubResource("Resource_3sso0"), SubResource("Resource_ha8gu"), SubResource("Resource_gtk22")])
 
 [node name="QuestCompletionListener" type="Node" parent="."]
-script = ExtResource("2_2pulb")
+script = ExtResource("5_e75cw")
 
 [node name="DemoUI" type="Control" parent="."]
 layout_mode = 3
@@ -85,7 +85,7 @@ text = "Revive the Enemy"
 script = ExtResource("8_5oqyg")
 targetEnemy = NodePath("../../DemoEnemy")
 
-[node name="DemoAreaTriggerEnteredutton" type="Button" parent="DemoUI" node_paths=PackedStringArray("areaTrigger")]
+[node name="DemoAreaTriggerEnteredButton" type="Button" parent="DemoUI" node_paths=PackedStringArray("areaTrigger")]
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 0
 offset_left = 451.0
@@ -105,6 +105,18 @@ offset_bottom = 219.0
 text = "Exit Area"
 script = ExtResource("10_1e3px")
 areaTrigger = NodePath("../../DemoAreaTrigger")
+
+[node name="Label" type="Label" parent="DemoUI"]
+layout_mode = 0
+offset_top = 259.0
+offset_right = 651.0
+offset_bottom = 651.0
+text = "Demo Quest Flow:
+1. Interact with the lever to start the quest.
+2. Kill the enemy 3 times.
+   	- Use \"Kill Enemy\" and \"Revive Enemy\" to simulate combat.
+3. Enter the area and stay inside for 5 seconds.
+   	- Leaving the area resets the timer."
 
 [node name="DemoLever" type="Node3D" parent="."]
 

@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GameEvents="*res://Scripts/GameEvents.cs"
+GameEvents="*res://Scripts/Events/GameEvents.cs"
 
 [dotnet]
 
